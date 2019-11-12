@@ -1,6 +1,5 @@
 package ptash.petr.cognitivemaps.service;
 
-import org.megadix.jfcm.CognitiveMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ptash.petr.cognitivemaps.model.entites.MyCognitiveMap;
@@ -20,10 +19,8 @@ public class MapsServiceImpl implements MapsService {
 
     @Override
     public void createNewMap(String name) {
-        var cognitiveMap = new CognitiveMap(name);
-        var map = new MyCognitiveMap(cognitiveMap);
+        var map = new MyCognitiveMap();
         mapRepository.save(map);
-
     }
 
     @Override
