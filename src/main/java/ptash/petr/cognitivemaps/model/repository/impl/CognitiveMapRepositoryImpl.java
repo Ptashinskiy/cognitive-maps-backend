@@ -4,10 +4,7 @@ import org.megadix.jfcm.CognitiveMap;
 import org.springframework.stereotype.Component;
 import ptash.petr.cognitivemaps.model.repository.api.CognitiveMapRepository;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Component
 public class CognitiveMapRepositoryImpl implements CognitiveMapRepository {
@@ -24,8 +21,8 @@ public class CognitiveMapRepositoryImpl implements CognitiveMapRepository {
     }
 
     @Override
-    public CognitiveMap getByName(String name) {
-        return this.cognitiveMaps.get(name);
+    public Optional<CognitiveMap> getByName(String name) {
+        return Optional.of(this.cognitiveMaps.get(name));
     }
 
     @Override
@@ -35,5 +32,10 @@ public class CognitiveMapRepositoryImpl implements CognitiveMapRepository {
 
     public boolean notExistWithName(String name) {
         return !existByName(name);
+    }
+
+    @Override
+    public void updateCognitiveMap(CognitiveMap cognitiveMap) {
+
     }
 }

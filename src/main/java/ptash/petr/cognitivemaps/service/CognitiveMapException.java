@@ -9,4 +9,8 @@ public class CognitiveMapException extends RuntimeException {
     public static CognitiveMapException mapAlreadyExist(String name) {
         return new CognitiveMapException("Cognitive map with name " + name + " already exist");
     }
+
+    public static CognitiveMapException mapNotExist(String name) {
+        return new CognitiveMapException("Cognitive map with name " + name + "not exist");
+    }
 }
