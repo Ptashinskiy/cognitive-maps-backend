@@ -22,7 +22,11 @@ public class CognitiveMapRepositoryImpl implements CognitiveMapRepository {
 
     @Override
     public Optional<CognitiveMap> getByName(String name) {
-        return Optional.of(this.cognitiveMaps.get(name));
+        if (existByName(name)) {
+            return Optional.of(this.cognitiveMaps.get(name));
+        } else {
+            return Optional.empty();
+        }
     }
 
     @Override
