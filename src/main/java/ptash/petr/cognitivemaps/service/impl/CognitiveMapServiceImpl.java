@@ -6,8 +6,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import ptash.petr.cognitivemaps.common.CognitiveMapDto;
 import ptash.petr.cognitivemaps.model.repository.api.CognitiveMapRepository;
-import ptash.petr.cognitivemaps.service.CognitiveMapException;
+import ptash.petr.cognitivemaps.model.exceptions.CognitiveMapException;
 import ptash.petr.cognitivemaps.service.api.CognitiveMapService;
 
 import java.util.Optional;
@@ -45,6 +46,18 @@ public class CognitiveMapServiceImpl implements CognitiveMapService {
         } else {
             log.error("Impossible to add concept to this cognitive map, map with name {} not exist", mapName);
             throw CognitiveMapException.mapNotExist(mapName);
+        }
+    }
+
+    @Override
+    public CognitiveMapDto getByName(String name) {
+        Optional<CognitiveMap> cognitiveMapOptional = cognitiveMapRepository.getByName(name);
+        if (cognitiveMapOptional.isPresent()) {
+            log.info("Returned cognitive map with name {}", name);
+            return CognitiveMapDto.fromCognitiveMap(cognitiveMapOptional.get());
+        } else {
+            log.error("Cognitive map with name {} not found", name);
+            throw CognitiveMapException.mapNotExist(name);
         }
     }
 }

@@ -1,4 +1,4 @@
-package ptash.petr.cognitivemaps.service;
+package ptash.petr.cognitivemaps.model.exceptions;
 
 public class CognitiveMapException extends RuntimeException {
 
