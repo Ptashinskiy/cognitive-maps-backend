@@ -13,9 +13,13 @@ public interface CognitiveMapRepository {
 
     Optional<CognitiveMap> getByName(String name);
 
-    boolean existByName(String name);
+    boolean mapExistWithName(String name);
 
-    boolean notExistWithName(String name);
+    boolean mapNotExistWithName(String name);
 
-    void updateCognitiveMap(CognitiveMap cognitiveMap);
+    boolean conceptExistInMap(String conceptName, String mapName);
+
+    boolean conceptNotExistInMap(String conceptName, String mapName);
+
+    boolean connectionExistInMap(String connectionName, String mapName);
 }

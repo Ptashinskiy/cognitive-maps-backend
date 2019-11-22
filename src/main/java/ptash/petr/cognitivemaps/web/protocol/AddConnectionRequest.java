@@ -5,6 +5,7 @@ import org.springframework.lang.Nullable;
 import javax.validation.constraints.DecimalMax;
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 public class AddConnectionRequest {
 
@@ -23,6 +24,7 @@ public class AddConnectionRequest {
     @NotBlank
     private String toConceptName;
 
+    @NotNull
     @DecimalMax(value = "1.0")
     @DecimalMin(value = "-1.0")
     private Double weight;
@@ -31,7 +33,7 @@ public class AddConnectionRequest {
     }
 
     public AddConnectionRequest(@NotBlank String name, @NotBlank String mapName, @NotBlank String fromConceptName, @Nullable String description,
-                                @NotBlank String toConceptName, @DecimalMax(value = "1.0") @DecimalMin(value = "-1.0") Double weight) {
+                                @NotBlank String toConceptName, @NotNull @DecimalMax(value = "1.0") @DecimalMin(value = "-1.0") Double weight) {
         this.name = name;
         this.mapName = mapName;
         this.fromConceptName = fromConceptName;

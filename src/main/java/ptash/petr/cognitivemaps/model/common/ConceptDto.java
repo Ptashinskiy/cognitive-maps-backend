@@ -1,4 +1,4 @@
-package ptash.petr.cognitivemaps.common;
+package ptash.petr.cognitivemaps.model.common;
 
 import org.megadix.jfcm.Concept;
 

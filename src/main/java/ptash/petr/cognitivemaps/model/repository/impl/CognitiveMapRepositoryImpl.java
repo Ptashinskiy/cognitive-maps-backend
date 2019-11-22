@@ -17,12 +17,13 @@ public class CognitiveMapRepositoryImpl implements CognitiveMapRepository {
 
     @Override
     public List<CognitiveMap> getAll() {
+        if (cognitiveMaps.isEmpty()) return Collections.emptyList();
         return new ArrayList<>(this.cognitiveMaps.values());
     }
 
     @Override
     public Optional<CognitiveMap> getByName(String name) {
-        if (existByName(name)) {
+        if (mapExistWithName(name)) {
             return Optional.of(this.cognitiveMaps.get(name));
         } else {
             return Optional.empty();
@@ -30,16 +31,27 @@ public class CognitiveMapRepositoryImpl implements CognitiveMapRepository {
     }
 
     @Override
-    public boolean existByName(String name) {
+    public boolean mapExistWithName(String name) {
         return this.cognitiveMaps.containsKey(name);
     }
 
-    public boolean notExistWithName(String name) {
-        return !existByName(name);
+    @Override
+    public boolean mapNotExistWithName(String name) {
+        return !mapExistWithName(name);
     }
 
     @Override
-    public void updateCognitiveMap(CognitiveMap cognitiveMap) {
+    public boolean conceptExistInMap(String conceptName, String mapName) {
+        return cognitiveMaps.get(mapName).getConcepts().containsKey(conceptName);
+    }
 
+    @Override
+    public boolean conceptNotExistInMap(String conceptName, String mapName) {
+        return !conceptExistInMap(conceptName, mapName);
+    }
+
+    @Override
+    public boolean connectionExistInMap(String connectionName, String mapName) {
+        return cognitiveMaps.get(mapName).getConnections().containsKey(connectionName);
     }
 }

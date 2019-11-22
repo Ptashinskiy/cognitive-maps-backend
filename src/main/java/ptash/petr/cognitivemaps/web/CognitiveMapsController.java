@@ -7,12 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import ptash.petr.cognitivemaps.common.CognitiveMapDto;
+import ptash.petr.cognitivemaps.model.common.CognitiveMapDto;
 import ptash.petr.cognitivemaps.service.api.CognitiveMapService;
-import ptash.petr.cognitivemaps.web.protocol.AddConnectionRequest;
-import ptash.petr.cognitivemaps.web.protocol.AddFlexibleConceptRequest;
-import ptash.petr.cognitivemaps.web.protocol.AddHardConceptRequest;
-import ptash.petr.cognitivemaps.web.protocol.CreateCognitiveMapRequest;
+import ptash.petr.cognitivemaps.web.protocol.*;
 
 import javax.validation.Valid;
 
@@ -34,9 +31,14 @@ public class CognitiveMapsController {
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping("/get/{name}")
-    public ResponseEntity<CognitiveMapDto> getCognitiveMapByName(@PathVariable @Valid String name) {
-        return ResponseEntity.ok(cognitiveMapService.getByName(name));
+    @GetMapping("/get")
+    public ResponseEntity<CognitiveMapDto> getCognitiveMapByName(@RequestBody @Valid GetMapRequest request) {
+        return ResponseEntity.ok(cognitiveMapService.getByName(request.getName()));
+    }
+
+    @GetMapping("/execute")
+    public ResponseEntity<CognitiveMapDto> executeMap(@RequestBody @Valid GetMapRequest request) {
+        return ResponseEntity.ok(cognitiveMapService.execute(request.getName()));
     }
 
     @PostMapping("/addFlexConcept")
