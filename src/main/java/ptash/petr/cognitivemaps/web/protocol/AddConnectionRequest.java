@@ -10,7 +10,7 @@ import javax.validation.constraints.NotNull;
 public class AddConnectionRequest {
 
     @NotBlank
-    private String name;
+    private String connectionName;
 
     @NotBlank
     private String mapName;
@@ -32,9 +32,9 @@ public class AddConnectionRequest {
     public AddConnectionRequest() {
     }
 
-    public AddConnectionRequest(@NotBlank String name, @NotBlank String mapName, @NotBlank String fromConceptName, @Nullable String description,
+    public AddConnectionRequest(@NotBlank String connectionName, @NotBlank String mapName, @NotBlank String fromConceptName, @Nullable String description,
                                 @NotBlank String toConceptName, @NotNull @DecimalMax(value = "1.0") @DecimalMin(value = "-1.0") Double weight) {
-        this.name = name;
+        this.connectionName = connectionName;
         this.mapName = mapName;
         this.fromConceptName = fromConceptName;
         this.description = description;
@@ -42,12 +42,12 @@ public class AddConnectionRequest {
         this.weight = weight;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setConnectionName(String connectionName) {
+        this.connectionName = connectionName;
     }
 
-    public String getName() {
-        return name;
+    public String getConnectionName() {
+        return connectionName;
     }
 
     public void setMapName(String mapName) {

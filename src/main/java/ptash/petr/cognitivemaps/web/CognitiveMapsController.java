@@ -15,7 +15,7 @@ import javax.validation.Valid;
 
 @Validated
 @RestController
-@RequestMapping("/maps")
+@RequestMapping("/map")
 public class CognitiveMapsController {
 
     private final CognitiveMapService cognitiveMapService;
@@ -31,7 +31,7 @@ public class CognitiveMapsController {
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping("/get")
+    @GetMapping("/get") //todo handle nullpointer
     public ResponseEntity<CognitiveMapDto> getCognitiveMapByName(@RequestBody @Valid GetMapRequest request) {
         return ResponseEntity.ok(cognitiveMapService.getByName(request.getName()));
     }
@@ -57,7 +57,7 @@ public class CognitiveMapsController {
     /**Must be atomic operation, recode with try-catch*/
     @PostMapping("/addConnection")
     public void addConnection(@RequestBody @Valid AddConnectionRequest request) {
-        WeightedConnection connection = new WeightedConnection(request.getName(), request.getDescription(), request.getWeight());
+        WeightedConnection connection = new WeightedConnection(request.getConnectionName(), request.getDescription(), request.getWeight());
         cognitiveMapService.addConnection(connection, request.getMapName(), request.getFromConceptName(), request.getToConceptName());
     }
 }
