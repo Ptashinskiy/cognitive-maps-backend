@@ -8,8 +8,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ptash.petr.cognitivemaps.model.common.CognitiveMapDto;
+import ptash.petr.cognitivemaps.model.exceptions.AddConnectionException;
 import ptash.petr.cognitivemaps.service.api.CognitiveMapService;
-import ptash.petr.cognitivemaps.web.protocol.*;
+import ptash.petr.cognitivemaps.web.protocol.request.*;
 
 import javax.validation.Valid;
 
@@ -42,22 +43,28 @@ public class CognitiveMapsController {
     }
 
     @PostMapping("/addFlexConcept")
-    public void addFlexibleConcept(@RequestBody @Valid AddFlexibleConceptRequest request) {
+    public ResponseEntity<Void> addFlexibleConcept(@RequestBody @Valid AddFlexibleConceptRequest request) {
         Concept concept = new Concept(request.getConceptName(), request.getConceptDescription(), new LinearActivator(), 0.0, 0.0, false);
         cognitiveMapService.addConcept(concept, request.getMapName());
+        return ResponseEntity.ok().build();
     }
 
     @PostMapping("/addHardConcept")
-    public void addHardConcept(@RequestBody @Valid AddHardConceptRequest request) {
+    public ResponseEntity<Void> addHardConcept(@RequestBody @Valid AddHardConceptRequest request) {
         Concept concept = new Concept(request.getConceptName(), request.getConceptDescription(),
                 new LinearActivator(), 0.0, request.getOutputValue(), true);
         cognitiveMapService.addConcept(concept, request.getMapName());
+        return ResponseEntity.ok().build();
     }
 
-    /**Must be atomic operation, recode with try-catch*/
     @PostMapping("/addConnection")
-    public void addConnection(@RequestBody @Valid AddConnectionRequest request) {
-        WeightedConnection connection = new WeightedConnection(request.getConnectionName(), request.getDescription(), request.getWeight());
-        cognitiveMapService.addConnection(connection, request.getMapName(), request.getFromConceptName(), request.getToConceptName());
+    public ResponseEntity<Void> addConnection(@RequestBody @Valid AddConnectionRequest request) {
+        try {
+            WeightedConnection connection = new WeightedConnection(request.getConnectionName(), request.getDescription(), request.getWeight());
+            cognitiveMapService.addConnection(connection, request.getMapName(), request.getFromConceptName(), request.getToConceptName());
+            return ResponseEntity.ok().build();
+        } catch (RuntimeException e) {
+            throw new AddConnectionException("Can't add connection cause " + e.getMessage());
+        }
     }
 }

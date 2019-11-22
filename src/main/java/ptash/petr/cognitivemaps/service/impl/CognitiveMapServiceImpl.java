@@ -8,8 +8,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ptash.petr.cognitivemaps.model.common.CognitiveMapDto;
+import ptash.petr.cognitivemaps.model.exceptions.CognitiveMapBadRequestException;
 import ptash.petr.cognitivemaps.model.repository.api.CognitiveMapRepository;
-import ptash.petr.cognitivemaps.model.exceptions.CognitiveMapException;
+import ptash.petr.cognitivemaps.model.exceptions.CognitiveMapNotFoundException;
 import ptash.petr.cognitivemaps.service.api.CognitiveMapService;
 
 import java.util.Optional;
@@ -33,7 +34,7 @@ public class CognitiveMapServiceImpl implements CognitiveMapService {
             log.info("Created new cognitive map with name {}", name);
         } else {
             log.error("Impossible to create cognitive map with name {}", name);
-            throw CognitiveMapException.mapAlreadyExist(name);
+            throw CognitiveMapBadRequestException.mapAlreadyExist(name);
         }
     }
 
@@ -42,10 +43,10 @@ public class CognitiveMapServiceImpl implements CognitiveMapService {
         String conceptName = concept.getName();
         if (cognitiveMapRepository.mapNotExistWithName(mapName)) {
             log.error("Impossible to add concept to this cognitive map, map with name {} not exist", mapName);
-            throw CognitiveMapException.mapNotExist(mapName);
+            throw CognitiveMapNotFoundException.mapNotExist(mapName);
         } else if (cognitiveMapRepository.conceptExistInMap(conceptName, mapName)) {
             log.error("Impossible to add this concept to cognitive map, concept with name {} already exist", conceptName);
-            throw CognitiveMapException.conceptAlreadyExist(conceptName);
+            throw CognitiveMapBadRequestException.conceptAlreadyExist(conceptName);
         } else {
             cognitiveMapRepository.getByName(mapName).ifPresent(map -> map.addConcept(concept));
             log.info("Concept {} was added to cognitive map {}", conceptName, mapName);
@@ -57,16 +58,16 @@ public class CognitiveMapServiceImpl implements CognitiveMapService {
         String connectionName = connection.getName();
         if (cognitiveMapRepository.mapNotExistWithName(mapName)) {
             log.error("Impossible to add connection {}, cognitive map with name {} not found", connectionName, mapName);
-            throw CognitiveMapException.mapNotExist(mapName);
+            throw CognitiveMapNotFoundException.mapNotExist(mapName);
         } else if (cognitiveMapRepository.connectionExistInMap(connectionName, mapName)) {
             log.error("Impossible to add this connection, connection with name {} already exist", connectionName);
-            throw CognitiveMapException.connectionAlreadyExist(connectionName);
+            throw CognitiveMapBadRequestException.connectionAlreadyExist(connectionName);
         } else if (cognitiveMapRepository.conceptNotExistInMap(fromConceptName, mapName)) {
             log.error("Impossible to add connection {}, concept with name {} not found", connectionName, fromConceptName);
-            throw CognitiveMapException.conceptNotExist(fromConceptName);
+            throw CognitiveMapNotFoundException.conceptNotExist(fromConceptName);
         } else if (cognitiveMapRepository.conceptNotExistInMap(toConceptName, mapName)) {
             log.error("Impossible to add connection {}, concept with name {} not found", connectionName, toConceptName);
-            throw CognitiveMapException.conceptNotExist(toConceptName);
+            throw CognitiveMapNotFoundException.conceptNotExist(toConceptName);
         } else {
             cognitiveMapRepository.getByName(mapName).ifPresent(map -> {
                 map.addConnection(connection);
@@ -85,21 +86,21 @@ public class CognitiveMapServiceImpl implements CognitiveMapService {
             return CognitiveMapDto.fromCognitiveMap(cognitiveMap);
         } else {
             log.error("Cognitive map with name {} not found", name);
-            throw CognitiveMapException.mapNotExist(name);
+            throw CognitiveMapNotFoundException.mapNotExist(name);
         }
     }
 
     @Override
     public CognitiveMapDto execute(String name) {
         Optional<CognitiveMap> cognitiveMapOptional = cognitiveMapRepository.getByName(name);
-        CognitiveMap cognitiveMap = cognitiveMapOptional.orElseThrow(() -> CognitiveMapException.mapNotExist(name));
+        CognitiveMap cognitiveMap = cognitiveMapOptional.orElseThrow(() -> CognitiveMapNotFoundException.mapNotExist(name));
         try {
             cognitiveMap.execute();
             log.info("Cognitive map with name {} executed", name);
             return CognitiveMapDto.fromCognitiveMap(cognitiveMap);
         } catch (Exception e) {
             log.error("Impossible to execute map with name {}, you may have a flexible concepts without any connection", name);
-            throw CognitiveMapException.cantExecuteMap(name);
+            throw CognitiveMapBadRequestException.cantExecuteMap(name);
         }
     }
 }

@@ -20,13 +20,13 @@ public class ConceptDto {
         return outputValue;
     }
 
-    private ConceptDto(String name, String description, double outputValue) {
+    private ConceptDto(String name, String description/*, double outputValue*/) {
         this.name = name;
         this.description = description;
-        this.outputValue = outputValue;
+        //this.outputValue = outputValue;
     }
 
     public static ConceptDto fromConcept(Concept concept) {
-        return new ConceptDto(concept.getName(), concept.getDescription(), concept.getOutput());
+        return new ConceptDto(concept.getName(), concept.getDescription()/*, concept.getOutput()*/);
     }
 }
