@@ -2,6 +2,7 @@ package ptash.petr.cognitivemaps.service.impl;
 
 import org.megadix.jfcm.CognitiveMap;
 import org.megadix.jfcm.Concept;
+import org.megadix.jfcm.conn.WeightedConnection;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,10 +55,45 @@ public class CognitiveMapServiceImpl implements CognitiveMapService {
         Optional<CognitiveMap> cognitiveMapOptional = cognitiveMapRepository.getByName(name);
         if (cognitiveMapOptional.isPresent()) {
             log.info("Returned cognitive map with name {}", name);
-            return CognitiveMapDto.fromCognitiveMap(cognitiveMapOptional.get());
+            CognitiveMap cognitiveMap = cognitiveMapOptional.get();
+            cognitiveMap.execute();
+            return CognitiveMapDto.fromCognitiveMap(cognitiveMap);
         } else {
             log.error("Cognitive map with name {} not found", name);
             throw CognitiveMapException.mapNotExist(name);
+        }
+    }
+
+    @Override
+    public void addConnection(WeightedConnection connection, String mapName, String fromConceptName, String toConceptName) {
+        Optional<CognitiveMap> cognitiveMapOptional = cognitiveMapRepository.getByName(mapName);
+        if (isAllExist(mapName, fromConceptName, toConceptName)) {
+            CognitiveMap cognitiveMap = cognitiveMapOptional.get();
+            cognitiveMap.addConnection(connection);
+            cognitiveMap.connect(fromConceptName, connection.getName(), toConceptName);
+        } else {
+            log.error("Impossible to connect current concepts");
+        }
+    }
+
+    private boolean conceptNotExistByName(String mapName, String conceptName) {
+        Optional<CognitiveMap> cognitiveMapOptional = cognitiveMapRepository.getByName(mapName);
+        return !cognitiveMapOptional.map(cognitiveMap -> cognitiveMap.getConcepts().containsKey(conceptName)).orElse(false);
+    }
+
+    private boolean isAllExist(String mapName, String firstConcept, String secondConcept) {
+        Optional<CognitiveMap> cognitiveMapOptional = cognitiveMapRepository.getByName(mapName);
+        if (cognitiveMapOptional.isEmpty()) {
+            log.error("Impossible to obtain cognitive map with name {}", mapName);
+            throw CognitiveMapException.mapNotExist(mapName);
+        } else if (conceptNotExistByName(mapName, firstConcept)) {
+            log.error("Impossible to obtain concept with name {}", firstConcept);
+            throw CognitiveMapException.conceptNotExist(firstConcept);
+        } else if (conceptNotExistByName(mapName, secondConcept)) {
+            log.error("Impossible to obtain concept with name {}", secondConcept);
+            throw CognitiveMapException.conceptNotExist(secondConcept);
+        } else {
+            return true;
         }
     }
 }

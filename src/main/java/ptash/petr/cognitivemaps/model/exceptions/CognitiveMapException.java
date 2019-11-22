@@ -17,4 +17,8 @@ public class CognitiveMapException extends RuntimeException {
     public static CognitiveMapException mapNotExist(String name) {
         return new CognitiveMapException("Cognitive map with name " + name + " not exist");
     }
+
+    public static CognitiveMapException conceptNotExist(String name) {
+        return new CognitiveMapException("Concept with name " + name + " not exist");
+    }
 }

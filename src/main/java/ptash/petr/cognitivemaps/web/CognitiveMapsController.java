@@ -2,12 +2,14 @@ package ptash.petr.cognitivemaps.web;
 
 import org.megadix.jfcm.Concept;
 import org.megadix.jfcm.act.LinearActivator;
+import org.megadix.jfcm.conn.WeightedConnection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ptash.petr.cognitivemaps.common.CognitiveMapDto;
 import ptash.petr.cognitivemaps.service.api.CognitiveMapService;
+import ptash.petr.cognitivemaps.web.protocol.AddConnectionRequest;
 import ptash.petr.cognitivemaps.web.protocol.AddFlexibleConceptRequest;
 import ptash.petr.cognitivemaps.web.protocol.AddHardConceptRequest;
 import ptash.petr.cognitivemaps.web.protocol.CreateCognitiveMapRequest;
@@ -48,5 +50,12 @@ public class CognitiveMapsController {
         Concept concept = new Concept(request.getConceptName(), request.getConceptDescription(),
                 new LinearActivator(), 0.0, request.getOutputValue(), true);
         cognitiveMapService.addConcept(concept, request.getMapName());
+    }
+
+    /**Must be atomic operation, recode with try-catch*/
+    @PostMapping("/addConnection")
+    public void addConnection(@RequestBody @Valid AddConnectionRequest request) {
+        WeightedConnection connection = new WeightedConnection(request.getName(), request.getDescription(), request.getWeight());
+        cognitiveMapService.addConnection(connection, request.getMapName(), request.getFromConceptName(), request.getToConceptName());
     }
 }
