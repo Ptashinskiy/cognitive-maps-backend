@@ -1,4 +1,4 @@
-package ptash.petr.cognitivemaps.model.exceptions;
+package ptash.petr.cognitivemaps.service.exceptions;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;

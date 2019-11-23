@@ -13,6 +13,12 @@ public interface CognitiveMapRepository {
 
     Optional<CognitiveMap> getByName(String name);
 
+    void deleteCognitiveMap(String mapName);
+
+    void deleteConcept(String mapName, String conceptName);
+
+    void deleteConnection(String mapName, String connectionName);
+
     boolean mapExistWithName(String name);
 
     boolean mapNotExistWithName(String name);
@@ -22,4 +28,6 @@ public interface CognitiveMapRepository {
     boolean conceptNotExistInMap(String conceptName, String mapName);
 
     boolean connectionExistInMap(String connectionName, String mapName);
+
+    boolean connectionNotExistInMap(String connectionName, String mapName);
 }
