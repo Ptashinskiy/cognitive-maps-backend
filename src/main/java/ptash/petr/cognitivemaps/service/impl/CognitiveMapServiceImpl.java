@@ -70,6 +70,20 @@ public class CognitiveMapServiceImpl implements CognitiveMapService {
     }
 
     @Override
+    public CognitiveMapDto reset(String name) {
+        Optional<CognitiveMap> cognitiveMapOptional = cognitiveMapRepository.getByName(name);
+        if (cognitiveMapOptional.isPresent()) {
+            CognitiveMap cognitiveMap = cognitiveMapOptional.get();
+            cognitiveMap.reset();
+            log.info("Cognitive map with name {} was reseted", name);
+            return CognitiveMapDto.fromCognitiveMap(cognitiveMap);
+        } else {
+            log.error("Impossible ti reset cognitive map with name {}, map not found", name);
+            throw CognitiveMapNotFoundException.mapNotExist(name);
+        }
+    }
+
+    @Override
     public void deleteCognitiveMap(String mapName) {
         if (cognitiveMapRepository.mapExistWithName(mapName)) {
             cognitiveMapRepository.deleteCognitiveMap(mapName);

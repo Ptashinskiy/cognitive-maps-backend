@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import ptash.petr.cognitivemaps.web.protocol.request.ResetMapRequest;
 import ptash.petr.cognitivemaps.web.protocol.response.CognitiveMapDto;
 import ptash.petr.cognitivemaps.service.api.CognitiveMapService;
 import ptash.petr.cognitivemaps.web.protocol.request.CreateCognitiveMapRequest;
@@ -31,7 +32,7 @@ public class CognitiveMapController {
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping("/get") //todo handle nullpointer
+    @GetMapping("/get")
     public ResponseEntity<CognitiveMapDto> getCognitiveMapByName(@RequestBody @Valid GetMapRequest request) {
         return ResponseEntity.ok(cognitiveMapService.getByName(request.getName()));
     }
@@ -46,7 +47,13 @@ public class CognitiveMapController {
         return ResponseEntity.ok(cognitiveMapService.execute(request.getName()));
     }
 
-    @PostMapping("/delete")
+    @GetMapping("/reset")
+    public ResponseEntity<CognitiveMapDto> resetMap(@RequestBody @Valid ResetMapRequest request) {
+        cognitiveMapService.reset(request.getMapName());
+        return ResponseEntity.ok().build();
+    }
+
+    @DeleteMapping("/delete")
     public ResponseEntity<Void> deleteMap(@RequestBody @Valid DeleteMapRequest request) {
         cognitiveMapService.deleteCognitiveMap(request.getMapName());
         return ResponseEntity.ok().build();

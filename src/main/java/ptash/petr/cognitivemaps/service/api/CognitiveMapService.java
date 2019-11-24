@@ -14,6 +14,8 @@ public interface CognitiveMapService {
 
     CognitiveMapDto execute(String name);
 
+    CognitiveMapDto reset(String name);
+
     void deleteCognitiveMap(String mapName);
 
 }
