@@ -1,4 +1,4 @@
-package ptash.petr.cognitivemaps.model.common;
+package ptash.petr.cognitivemaps.web.protocol.response;
 
 import org.megadix.jfcm.Concept;
 
@@ -27,6 +27,10 @@ public class ConceptDto {
     }
 
     public static ConceptDto fromConcept(Concept concept) {
-        return new ConceptDto(concept.getName(), concept.getDescription(), concept.getOutput());
+        if (concept.getOutput() == null) {
+            return new ConceptDto(concept.getName(), concept.getDescription(), 0.0);
+        } else {
+            return new ConceptDto(concept.getName(), concept.getDescription(), concept.getOutput());
+        }
     }
 }

@@ -1,4 +1,4 @@
-package ptash.petr.cognitivemaps.model.common;
+package ptash.petr.cognitivemaps.web.protocol.response;
 
 import org.megadix.jfcm.FcmConnection;
 

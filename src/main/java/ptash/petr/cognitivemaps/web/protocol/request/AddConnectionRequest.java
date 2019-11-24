@@ -1,4 +1,4 @@
-package ptash.petr.cognitivemaps.web.protocol;
+package ptash.petr.cognitivemaps.web.protocol.request;
 
 import org.springframework.lang.Nullable;
 

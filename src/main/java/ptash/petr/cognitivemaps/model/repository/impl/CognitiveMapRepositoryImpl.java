@@ -31,6 +31,21 @@ public class CognitiveMapRepositoryImpl implements CognitiveMapRepository {
     }
 
     @Override
+    public void deleteCognitiveMap(String mapName) {
+        cognitiveMaps.remove(mapName);
+    }
+
+    @Override
+    public void deleteConcept(String mapName, String conceptName) {
+        cognitiveMaps.get(mapName).getConcepts().remove(conceptName);
+    }
+
+    @Override
+    public void deleteConnection(String mapName, String connectionName) {
+        cognitiveMaps.get(mapName).getConnections().remove(connectionName);
+    }
+
+    @Override
     public boolean mapExistWithName(String name) {
         return this.cognitiveMaps.containsKey(name);
     }
@@ -53,5 +68,10 @@ public class CognitiveMapRepositoryImpl implements CognitiveMapRepository {
     @Override
     public boolean connectionExistInMap(String connectionName, String mapName) {
         return cognitiveMaps.get(mapName).getConnections().containsKey(connectionName);
+    }
+
+    @Override
+    public boolean connectionNotExistInMap(String connectionName, String mapName) {
+        return !connectionExistInMap(connectionName, mapName);
     }
 }
