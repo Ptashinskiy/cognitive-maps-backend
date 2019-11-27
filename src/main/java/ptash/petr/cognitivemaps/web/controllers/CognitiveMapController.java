@@ -27,7 +27,7 @@ public class CognitiveMapController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<Void> createNewCognitiveMap(@RequestBody CreateCognitiveMapRequest request) {
+    public ResponseEntity<Void> createNewCognitiveMap(@RequestBody @Valid CreateCognitiveMapRequest request) {
         cognitiveMapService.createNewMap(request.getCognitiveMapName());
         return ResponseEntity.ok().build();
     }
