@@ -1,10 +1,8 @@
 package ptash.petr.cognitivemaps.web.controllers;
 
-import org.megadix.jfcm.conn.WeightedConnection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import ptash.petr.cognitivemaps.service.exceptions.AddConnectionException;
 import ptash.petr.cognitivemaps.service.api.ConnectionService;
 import ptash.petr.cognitivemaps.web.protocol.request.AddConnectionRequest;
 import ptash.petr.cognitivemaps.web.protocol.request.DeleteConnectionRequest;
@@ -24,13 +22,9 @@ public class ConnectionController {
 
     @PostMapping("/add")
     public ResponseEntity<Void> addConnection(@RequestBody @Valid AddConnectionRequest request) {
-        try {
-            WeightedConnection connection = new WeightedConnection(request.getConnectionName(), request.getDescription(), request.getWeight());
-            connectionService.addConnection(connection, request.getMapName(), request.getFromConceptName(), request.getToConceptName());
-            return ResponseEntity.ok().build();
-        } catch (RuntimeException e) {
-            throw new AddConnectionException("Can't add connection cause " + e.getMessage());
-        }
+        connectionService.addConnection(request.getConnectionName(), request.getDescription(), request.getWeight(),
+                request.getMapName(), request.getFromConceptName(), request.getToConceptName());
+        return ResponseEntity.ok().build();
     }
 
     @DeleteMapping("/delete")

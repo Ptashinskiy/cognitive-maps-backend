@@ -5,20 +5,20 @@ import javax.validation.constraints.NotBlank;
 public class ResetMapRequest {
 
     @NotBlank
-    private String mapName;
+    private String name;
 
     public ResetMapRequest() {
     }
 
-    public ResetMapRequest(@NotBlank String mapName) {
-        this.mapName = mapName;
+    public ResetMapRequest(@NotBlank String name) {
+        this.name = name;
     }
 
-    public String getMapName() {
-        return mapName;
+    public String getName() {
+        return name;
     }
 
-    public void setMapName(String mapName) {
-        this.mapName = mapName;
+    public void setName(String name) {
+        this.name = name;
     }
 }

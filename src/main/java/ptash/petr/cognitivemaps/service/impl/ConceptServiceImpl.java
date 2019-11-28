@@ -1,6 +1,7 @@
 package ptash.petr.cognitivemaps.service.impl;
 
 import org.megadix.jfcm.Concept;
+import org.megadix.jfcm.act.SigmoidActivator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +24,18 @@ public class ConceptServiceImpl implements ConceptService {
     }
 
     @Override
-    public void addConcept(Concept concept, String mapName) {
+    public void addHardConcept(String conceptName, String conceptDescription, double outputValue, String mapName) {
+        Concept concept = new Concept(conceptName, conceptDescription, new SigmoidActivator(), 0.0, outputValue, true);
+        addConcept(concept, mapName);
+    }
+
+    @Override
+    public void addFlexConcept(String conceptName, String conceptDescription, double outputValue, String mapName) {
+        Concept concept = new Concept(conceptName, conceptDescription, new SigmoidActivator(), 0.0, outputValue, false);
+        addConcept(concept, mapName);
+    }
+
+    private void addConcept(Concept concept, String mapName) {
         String conceptName = concept.getName();
         if (cognitiveMapRepository.mapNotExistWithName(mapName)) {
             log.error("Impossible to add concept to this cognitive map, map with name {} not exist", mapName);

@@ -26,7 +26,7 @@ public class AddConnectionRequest {
 
     @NotNull
     @DecimalMax(value = "1.0")
-    @DecimalMin(value = "-1.0")
+    @DecimalMin(value = "0.0")
     private Double weight;
 
     public AddConnectionRequest() {

@@ -5,20 +5,20 @@ import javax.validation.constraints.NotBlank;
 public class CreateCognitiveMapRequest {
 
     @NotBlank
-    private String cognitiveMapName;
+    private String name;
 
     public CreateCognitiveMapRequest() {
     }
 
-    public CreateCognitiveMapRequest(String cognitiveMapName) {
-        this.cognitiveMapName = cognitiveMapName;
+    public CreateCognitiveMapRequest(String name) {
+        this.name = name;
     }
 
-    public String getCognitiveMapName() {
-        return cognitiveMapName;
+    public String getName() {
+        return name;
     }
 
-    public void setCognitiveMapName(String cognitiveMapName) {
-        this.cognitiveMapName = cognitiveMapName;
+    public void setName(String name) {
+        this.name = name;
     }
 }
