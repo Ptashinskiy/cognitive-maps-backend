@@ -23,8 +23,8 @@ public class ConnectionServiceImpl implements ConnectionService {
     }
 
     @Override
-    public void addConnection(WeightedConnection connection, String mapName, String fromConceptName, String toConceptName) {
-        String connectionName = connection.getName();
+    public void addConnection(String connectionName, String connectionDescription, double weight, String mapName, String fromConceptName, String toConceptName) {
+        WeightedConnection connection = new WeightedConnection(connectionName, connectionDescription, weight);
         if (cognitiveMapRepository.mapNotExistWithName(mapName)) {
             log.error("Impossible to add connection {}, cognitive map with name {} not found", connectionName, mapName);
             throw CognitiveMapNotFoundException.mapNotExist(mapName);

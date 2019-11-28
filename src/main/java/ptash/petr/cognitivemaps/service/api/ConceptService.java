@@ -1,10 +1,10 @@
 package ptash.petr.cognitivemaps.service.api;
 
-import org.megadix.jfcm.Concept;
-
 public interface ConceptService {
 
-    void addConcept(Concept concept, String mapName);
+    void addHardConcept(String conceptName, String conceptDescription, double outputValue, String mapName);
+
+    void addFlexConcept(String conceptName, String conceptDescription, String mapName);
 
     void deleteConceptFromMap(String conceptName, String mapName);
 }

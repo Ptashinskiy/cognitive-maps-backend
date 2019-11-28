@@ -1,7 +1,5 @@
 package ptash.petr.cognitivemaps.web.controllers;
 
-import org.megadix.jfcm.Concept;
-import org.megadix.jfcm.act.LinearActivator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -25,16 +23,13 @@ public class ConceptController {
 
     @PostMapping("/addFlex")
     public ResponseEntity<Void> addFlexibleConcept(@RequestBody @Valid AddFlexibleConceptRequest request) {
-        Concept concept = new Concept(request.getConceptName(), request.getConceptDescription(), new LinearActivator(), 0.0, 0.0, false);
-        conceptService.addConcept(concept, request.getMapName());
+        conceptService.addFlexConcept(request.getConceptName(), request.getConceptDescription(), request.getMapName());
         return ResponseEntity.ok().build();
     }
 
     @PostMapping("/addHard")
     public ResponseEntity<Void> addHardConcept(@RequestBody @Valid AddHardConceptRequest request) {
-        Concept concept = new Concept(request.getConceptName(), request.getConceptDescription(),
-                new LinearActivator(), 0.0, request.getOutputValue(), true);
-        conceptService.addConcept(concept, request.getMapName());
+        conceptService.addHardConcept(request.getConceptName(), request.getConceptDescription(), request.getOutputValue(), request.getMapName());
         return ResponseEntity.ok().build();
     }
 
