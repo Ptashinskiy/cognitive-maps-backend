@@ -1,5 +1,6 @@
 package ptash.petr.cognitivemaps.web.protocol.request;
 
+import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
 
 import javax.validation.constraints.DecimalMax;
@@ -17,6 +18,7 @@ public class AddFlexibleConceptRequest {
     @Nullable
     private String conceptDescription;
 
+    @NonNull
     @DecimalMax(value = "1.0")
     @DecimalMin(value = "0.0")
     private double outputValue;

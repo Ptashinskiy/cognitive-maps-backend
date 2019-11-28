@@ -28,7 +28,7 @@ public class CognitiveMapController {
 
     @PostMapping("/create")
     public ResponseEntity<Void> createNewCognitiveMap(@RequestBody @Valid CreateCognitiveMapRequest request) {
-        cognitiveMapService.createNewMap(request.getCognitiveMapName());
+        cognitiveMapService.createNewMap(request.getName());
         return ResponseEntity.ok().build();
     }
 
@@ -49,13 +49,13 @@ public class CognitiveMapController {
 
     @GetMapping("/reset")
     public ResponseEntity<CognitiveMapDto> resetMap(@RequestBody @Valid ResetMapRequest request) {
-        cognitiveMapService.reset(request.getMapName());
+        cognitiveMapService.reset(request.getName());
         return ResponseEntity.ok().build();
     }
 
     @DeleteMapping("/delete")
     public ResponseEntity<Void> deleteMap(@RequestBody @Valid DeleteMapRequest request) {
-        cognitiveMapService.deleteCognitiveMap(request.getMapName());
+        cognitiveMapService.deleteCognitiveMap(request.getName());
         return ResponseEntity.ok().build();
     }
 }

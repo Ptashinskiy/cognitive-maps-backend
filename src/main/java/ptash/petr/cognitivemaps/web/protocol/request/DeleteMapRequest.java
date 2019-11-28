@@ -5,19 +5,19 @@ import javax.validation.constraints.NotBlank;
 public class DeleteMapRequest {
 
     @NotBlank
-    private String mapName;
+    private String name;
 
     public DeleteMapRequest() {}
 
-    public DeleteMapRequest(@NotBlank String mapName) {
-        this.mapName = mapName;
+    public DeleteMapRequest(@NotBlank String name) {
+        this.name = name;
     }
 
-    public String getMapName() {
-        return mapName;
+    public String getName() {
+        return name;
     }
 
-    public void setMapName(@NotBlank String mapName) {
-        this.mapName = mapName;
+    public void setName(@NotBlank String name) {
+        this.name = name;
     }
 }
