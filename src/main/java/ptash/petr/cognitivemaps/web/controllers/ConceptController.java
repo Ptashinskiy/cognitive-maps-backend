@@ -23,7 +23,7 @@ public class ConceptController {
 
     @PostMapping("/addFlex")
     public ResponseEntity<Void> addFlexibleConcept(@RequestBody @Valid AddFlexibleConceptRequest request) {
-        conceptService.addFlexConcept(request.getConceptName(), request.getConceptDescription(), request.getMapName());
+        conceptService.addFlexConcept(request.getConceptName(), request.getConceptDescription(), request.getOutputValue(), request.getMapName());
         return ResponseEntity.ok().build();
     }
 

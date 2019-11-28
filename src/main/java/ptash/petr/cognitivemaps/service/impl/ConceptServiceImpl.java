@@ -30,8 +30,8 @@ public class ConceptServiceImpl implements ConceptService {
     }
 
     @Override
-    public void addFlexConcept(String conceptName, String conceptDescription, String mapName) {
-        Concept concept = new Concept(conceptName, conceptDescription, new SigmoidActivator(), 0.0, 0.0, false);
+    public void addFlexConcept(String conceptName, String conceptDescription, double outputValue, String mapName) {
+        Concept concept = new Concept(conceptName, conceptDescription, new SigmoidActivator(), 0.0, outputValue, false);
         addConcept(concept, mapName);
     }
 
